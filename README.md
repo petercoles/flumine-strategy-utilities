@@ -67,3 +67,25 @@ framework.add_market_middleware(
     file_extension="json.gz", # optional, default "gz"
 )
 ```
+
+## Workers
+
+Workers allow Flumine to spawn additional threads, which the underlying operating system will often place on other processors (where available). The first worker added to this package is a copy of the Flumine terminate worker that can be used to close down a framework instance when there are no further markets to be processed.
+
+All Flumine workers have the same parameters, so the key information that is worker dependent is passed in the func_kwargs parameter as shown in the example below.
+
+Example Usage:
+
+``` python
+from fsu.workers.terminate import terminate
+
+framework.add_worker(
+    BackgroundWorker(
+        framework,
+        terminate,
+        func_kwargs={"today_only": True, "seconds_closed": 1200},
+        interval=60,
+        start_delay=60,
+    )
+)
+```
