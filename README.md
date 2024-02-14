@@ -50,3 +50,19 @@ framework.add_logging_control(
     )
 )
 ```
+
+## Middleware
+
+Flumine's middleware is a great place to pre-process market data before passing it to one or more strategies running on a Flmine instance. The first piece of middleware included with this package (others will likely follow) is intended for use when backtesting and injects the market catalogue into the market object. It's similar to the version included in Flumine's examples, but is subtlely different, most obviously in that this version reads files with the naming convention <market_id>.gz, whereas the Flumine example expects files with the .json extension.
+
+The only parameter, which is mandatory, is the path to the folder where the catalogues are being stored.
+
+Example Usage:
+
+``` python
+from fsu.middleware.market-cataogue import MarketCatalogueMiddleware
+
+framework.add_market_middleware(
+    MarketCatalogueMiddleware("path/to/catalogues/folder")
+)
+```
