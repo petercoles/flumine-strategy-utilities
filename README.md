@@ -28,3 +28,25 @@ logger = initialise_logger(
 # log something important
 logger.info("Yay, it's working")
 ```
+
+## Logging Control
+
+Flumine's logging control features are very useful for plugging into key stages of a strategy's execution as it processes markets. The logging control offered by this package, allow the capture of data at a market or individual order level. A particular useful use case is when simulating either backtesting over historical data, or capturing the results of paper trading in real-time.
+
+This example is simular to the one in the Flumine repository's examples, but more extensive in the data that it collects. It also creates the logging control files if they exist. Note that by default it will overwrite the files if they already exist. This by design, so add version numbers or include a timestamp in the control filenames if you want to repeat the runs with different inputs or use the append flag explained below.
+
+The control is designed primarily to capture order data, so the path to an orders log file is mandatory. Optional paramters are a path to a markets log file for the profit / loss per market and a boolean flag to indicate whether you wish to append to an existing log file of the same name. This is especially important when runninig 
+
+Example Usage:
+
+``` python
+from fsu.logging-controls.FileLoggingControlWithProfits import FileLoggingControlWithProfits
+
+framework.add_logging_control(
+    FileLoggingControlWithProfits(
+        orders_file="path/to-orders-log-file" # mandatory
+        markets_file="path/to/markets-log-file" # optional
+        append_to_logs=True # optional
+    )
+)
+```
